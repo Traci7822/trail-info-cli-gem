@@ -1,5 +1,7 @@
 require "trail_info/version"
 
 module TrailInfo
-  # Your code goes here...
+  def hello
+    puts "hello"
+  end
 end
