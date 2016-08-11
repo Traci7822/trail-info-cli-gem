@@ -17,31 +17,40 @@ class TrailInfo::CLI
   def pick_location
     #populate locations hash using nokogiri
 
-    locations = {
+    @locations = {
     "California" => ["San Diego", "Los Angeles", "San Francisco", "San Jose"],
     "New York" => [],
     "Texas" => [],
     "Washington" => []
     }
-    
-    @state_list = Hash.new
-    @city_list = Hash.new
-    @states = []
-    @cities = []
 
-    locations.keys.each_with_index do |state, i|
+    pick_state
+    pick_city
+  end
+
+  def pick_state
+    @states = []
+    @locations.keys.each_with_index do |state, i|
       @states << state
       puts "#{i + 1}. #{state}"
     end
 
-      state_selection = gets.chomp
-      puts "You've selected #{state_selection}. #{@states[state_selection.to_i - 1]}. Please select a city or enter 'go back' to return to the previous screen:"
-   
-    locations.values.each do |city|
+    state_selection = gets.chomp
+    puts "You've selected #{state_selection}. #{@states[state_selection.to_i - 1]}. Please select a city or enter 'go back' to return to the previous screen:"
+  end
+
+  def pick_city
+    @state_arrays = {}
+    @cities = []
+    @locations.keys.each do |state| #redundant. this recreates @locations but I like this version better
+      @state_arrays[state] = @cities
+  end
+  #need to correlate city arrays with state selection. all states are populated with california cities now. 
+
+    @locations.values.each do |city|
       city.each_with_index do |city, i|
         @cities << city
         puts "#{i + 1}. #{city}"
-        binding.pry
       end
     end
 
