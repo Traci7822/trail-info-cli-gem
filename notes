@@ -1,0 +1,33 @@
+
+a CLI for Every Trail
+http://www.everytrail.com/browse.php
+
+user types 'find a trail'
+
+-runs executable (bin/trail_info)
+
+Lists country locations (".box.content.link-list")
+
+"Which Country would you like?"
+
+user selects location
+
+Lists State locations (".box.content.link-list")
+
+"Which State would you like?"
+
+user selects location
+
+Lists City locations (".box.content.link-list")
+
+user selects location
+
+List of trails displayed (".container-body")
+
+user selects trail
+
+-Trail info displayed: Difficulty, Length, Duration, Notes
+
+reset option
+
+*Have a go back option on all scripts
