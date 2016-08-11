@@ -16,13 +16,15 @@ class TrailInfo::CLI
   end
 
   def pick_state
-    TrailInfo::Trails.create_trails.keys.each_with_index do |state, i|
-      @state = state
-      puts "#{i + 1}. #{@state}"
+    @state = []
+    TrailInfo::Trails.create_state_trails.keys.each_with_index do |state, i|      
+      puts "#{i + 1}. #{@state[i - 1]}"
+      @state << state
     end
 
     state_selection = gets.chomp
-    puts "You've selected #{state_selection}. #{@state}. Here are the 20 best trails in #{@state} according to EveryTrail.com. Enter 'reset' to go back to the menu."
+    puts "You've selected #{state_selection}. #{@state[state_selection.to_i - 1]}. Here are the 20 best trails in #{@state[state_selection.to_i - 1]} according to EveryTrail.com. Enter 'reset' to go back to the menu."
+    
     display_trails
 
     input = gets.chomp
@@ -33,9 +35,11 @@ class TrailInfo::CLI
 
   def display_trails
     TrailInfo::Trails.create_trails.values.each_with_index do |name, index|
-      i = 0
-      puts "#{index + 1}. #{name[i].values[0]} | Location: #{name[i].values[4]} | Difficulty: #{name[i].values[1]} | Length: #{name[i].values[2]} | Duration: #{name[i].values[3]}"
-      i += 1
+      index = index.to_i
+      while index <= 20
+        puts "#{index + 1}. #{name[index].values[0]} | Location: #{name[index].values[4]} | Difficulty: #{name[index].values[1]} | Length: #{name[index].values[2]} | Duration: #{name[index].values[3]}"
+        index += 1
+      end
     end
   end
 
