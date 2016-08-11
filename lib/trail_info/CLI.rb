@@ -16,16 +16,14 @@ class TrailInfo::CLI
   end
 
   def pick_state
-    @trails = ["trail1", "trail2", "trail3"]
-    @states = ["California", "New York", "Texas", "Washington"]
-
-    @states.each_with_index do |state, i|
-      puts "#{i + 1}. #{state}"
+    TrailInfo::Trails.create_trails.keys.each_with_index do |state, i|
+      @state = state
+      puts "#{i + 1}. #{@state}"
     end
 
     state_selection = gets.chomp
-    puts "You've selected #{state_selection}. #{@states[state_selection.to_i - 1]}. Here are the 20 best trails in #{@states[state_selection.to_i - 1]} according to EveryTrail.com. Enter 'reset' to go back to the menu."
-    display_trails(@trails)
+    puts "You've selected #{state_selection}. #{@state}. Here are the 20 best trails in #{@state} according to EveryTrail.com. Enter 'reset' to go back to the menu."
+    display_trails
 
     input = gets.chomp
     if input == "reset"
@@ -33,13 +31,12 @@ class TrailInfo::CLI
     end
   end
 
-  def display_trails(trails_array)
-    TrailInfo::Trails.create_trails
-    @trails.each_with_index do |trail, index|
-      puts "#{index + 1}. #{trail}"
+  def display_trails
+    TrailInfo::Trails.create_trails.values.each_with_index do |name, index|
+      i = 0
+      puts "#{index + 1}. #{name[i].values[0]} | Location: #{name[i].values[4]} | Difficulty: #{name[i].values[1]} | Length: #{name[i].values[2]} | Duration: #{name[i].values[3]}"
+      i += 1
     end
   end
-end
 
- 
-#need to pull @trails and @states from trails.rb, not from this file
+end
