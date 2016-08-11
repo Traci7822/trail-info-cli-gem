@@ -27,6 +27,7 @@ class TrailInfo::CLI
     @state_list = Hash.new
     @city_list = Hash.new
     @states = []
+    @cities = []
 
     locations.keys.each_with_index do |state, i|
       @states << state
@@ -36,22 +37,16 @@ class TrailInfo::CLI
       state_selection = gets.chomp
       puts "You've selected #{state_selection}. #{@states[state_selection.to_i - 1]}. Please select a city or enter 'go back' to return to the previous screen:"
    
-
-        #@city_list = {(index + 1) => city}
-      #end
-    #end
-
-    #states.each_with_index { |state, index| puts "#{index + 1}: #{state}"}
-    #state_selection = gets.chomp
-    
-     
-    #direct towards city array/hash for state selection
-    #populate cities hash w/ scraping 
+    locations.values.each do |city|
+      city.each_with_index do |city, i|
+        @cities << city
+        puts "#{i + 1}. #{city}"
+        binding.pry
+      end
+    end
 
     city_selection = gets.chomp
-    puts "You've selected #{@city_list[city_selection.to_i - 1]}. Here are the available trails in #{@city_list[city_selection.to_i - 1]}"
-        #ask for user input to select city
-        #go back option
+    puts "You've selected #{city_selection}. #{@cities[city_selection.to_i - 1]}. Here are the available trails in #{@cities[city_selection.to_i - 1]}." 
   end
 
   def display_trails
