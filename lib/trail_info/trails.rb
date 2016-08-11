@@ -5,13 +5,15 @@ class TrailInfo::Trails
   @@all = []
   @state_names = ["California", "New York", "Texas", "Washington"]
     #need to populate @state_names with scraping
+  @state_trails = ["trail1", "trail2", "trail3"]
 
   def initialize
 
   end
 
-  def self.create_trails(trails_array)
-    trails_array.each do |trail|
+  def self.create_trails #creates hashes of trails and adds them to @trails array
+    @state_trails.each do |trail|
+      #populate trails_array with scraping
       trail = {}
       trail = {
         "name" => "Pine Ridge Trail to Sykes Hot Springs", 
@@ -26,10 +28,8 @@ class TrailInfo::Trails
     create_state_trails
   end
 
-  def self.create_state_trails
+  def self.create_state_trails #creates array of state names and their trail arrays
     @states = Hash[@state_names.map {|state| [state, @trails]}]
-    @states
-
   end
 
   def self.all
