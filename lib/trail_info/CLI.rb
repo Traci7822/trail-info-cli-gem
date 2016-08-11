@@ -9,7 +9,7 @@ class TrailInfo::CLI
   end
 
   def menu
-    puts "What state would you like to find a trail in?"
+    puts "Pick which state you'd like to find a trail in and press enter."
     pick_location
     display_trails
   end
@@ -26,14 +26,17 @@ class TrailInfo::CLI
     
     @state_list = Hash.new
     @city_list = Hash.new
-    
-    locations.each_with_index do |state, index|
-        @state_list = {(index + 1) => state}
-        puts "#{@state_list.keys}. #{@state_list.values[0][0]}"
-        end
+    @states = []
+
+    locations.keys.each_with_index do |state, i|
+      @states << state
+      puts "#{i + 1}. #{state}"
+    end
+
+      state_selection = gets.chomp
+      puts "You've selected #{state_selection}. #{@states[state_selection.to_i - 1]}. Please select a city or enter 'go back' to return to the previous screen:"
    
 
-   puts "You've selected #{state_selection}: #{states[state_selection.to_i - 1]}. Please select a city or enter 'go back' to return to the previous screen:"     #cities_array.each_with_index do |city, index| 
         #@city_list = {(index + 1) => city}
       #end
     #end
