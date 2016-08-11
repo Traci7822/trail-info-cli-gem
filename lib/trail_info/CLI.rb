@@ -15,8 +15,11 @@ class TrailInfo::CLI
   end
   
   def pick_location
-    #Country list
-    #ask for user input to select a country
+    countries = ["United States", "United Kingdon", "Germany", "Japan"]
+    puts "Please select a number to find a trail in that country then press enter."
+    countries.each_with_index { |country, index| puts "#{index + 1}: #{country}"}
+    country_selection = gets.chomp
+    
 
       #State List
       #ask for user input to select a state
