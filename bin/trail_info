@@ -3,4 +3,6 @@
 require "./lib/trail_info"
 
 
+
 TrailInfo::CLI.new.call
+

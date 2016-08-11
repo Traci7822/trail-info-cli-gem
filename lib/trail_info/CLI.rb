@@ -1,8 +1,6 @@
 require 'pry'
 
 class TrailInfo::CLI
-    
-  
 
   def call
     puts "Welcome to Trail Finder!"
@@ -17,17 +15,16 @@ class TrailInfo::CLI
   
   def pick_location
     #populate locations hash using nokogiri
-    @states = ["California", "New York", "Texas", "Washington"]
-    @states.each do |state|
+    
       #need to create arrays for each state in which to house all of the states trails
-    end
+
     pick_state
   end
 
   def pick_state
     @trails = ["trail1", "trail2", "trail3"]
-
-
+    @states = ["California", "New York", "Texas", "Washington"]
+    
     @states.each_with_index do |state, i|
       puts "#{i + 1}. #{state}"
     end
@@ -40,14 +37,12 @@ class TrailInfo::CLI
     if input == "reset"
       menu
     end
-  
   end
-
 
   def display_trails(trails_array)
     TrailInfo::Trails.create_trails(trails_array)
-    TrailInfo::Trails.all.each_with_index do |trail, index|
-      puts "#{index + 1}. #{trail.name}"
+    @trails.each_with_index do |trail, index|
+      puts "#{index + 1}. #{trail}"
     end
   end
 end
