@@ -22,7 +22,7 @@ class TrailInfo::Trails
       puts "#{index}. #{state}"
     end
     @state_selection = gets.strip.to_i
-    puts "You've selected #{@state_selection}. #{@@STATE_NAMES[@state_selection]}. Here are the 20 best trails in #{@@STATE_NAMES[@state_selection]} according to EveryTrail.com. Enter 'reset' to go back to the menu."
+    puts "You've selected #{@state_selection}. #{@@STATE_NAMES[@state_selection - 1]}. Here are the 20 best trails in #{@@STATE_NAMES[@state_selection - 1]} according to EveryTrail.com. Enter 'reset' to go back to the menu."
     doc
     scrape_all
   end
@@ -32,23 +32,27 @@ class TrailInfo::Trails
   end
 
   def self.scrape_all
-    trail_array = []
-    doc.css(".content").each do |attribute|
-      trail_name = attribute.css("a")[0].text
-      trail_difficulty = attribute.css(".meta").text.split(" ")[0].sub(/:/, "")
-      trail_length = [attribute.css(".meta").text.split(" ")[1], attribute.css(".meta").text.split(" ")[2]].join(" ").gsub(/,/, "")
-      trail_duration = [attribute.css(".meta").text.split(" ")[3], attribute.css(".meta").text.split(" ")[4]].join(" ").gsub(/,/, "")
-      trail_location = [attribute.css(".small-text" ".light-text").text.strip.split(", ")[0], attribute.css(".small-text" ".light-text").text.strip.split(", ")[1]].join(", ")
-      trail_array.push(trail_name, trail_difficulty, trail_length, trail_duration, trail_location)
-      binding.pry
-      end
+    @trail_array = []
 
-      [0...trail_array.size].to_a.each do |i|
-        trail_name = trails[i][0]
-        trail_length = trails[i][1]
-        trail_difficulty = trails[i][2]
-        trail_duration = trails[i][3]
-        trail_location = trails[i][4]
+    doc.css(".guide-preview").each do |attribute|
+      if attribute.css("a") != []
+        trail_name = attribute.css("a")[0].text 
+        if attribute.css(".meta").text != "\n\t\t\t\t\t\t\t\t\t\t"
+          trail_difficulty = attribute.css(".meta").text.split(" ")[0].gsub(/:/, "")
+          trail_length = [attribute.css(".meta").text.split(" ")[1], attribute.css(".meta").text.split(" ")[2]].join(" ").gsub(/,/, "")
+          trail_duration = [attribute.css(".meta").text.split(" ")[3], attribute.css(".meta").text.split(" ")[4]].join(" ").gsub(/,/, "")
+          trail_location = [attribute.css(".small-text" ".light-text").text.strip.split(", ")[0], attribute.css(".small-text" ".light-text").text.strip.split(", ")[1]].join(", ")
+          @trail_array.push([trail_name, trail_difficulty, trail_length, trail_duration, trail_location])
+        end
+      end
+    end
+    
+      [0..@trail_array.size].to_a.each do |i|
+        trail_name = @trail_array[i][0]
+        trail_difficulty = @trail_array[i][1]
+        trail_length = @trail_array[i][2]
+        trail_duration = @trail_array[i][3]
+        trail_location = @trail_array[i][4]
       end
 
       trail = Trail.new
