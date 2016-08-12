@@ -14,40 +14,55 @@ class TrailInfo::Trails
   @trails = []
 
   def initialize(state)
-      @state = state
+      @state = state #why?
   end
 
-  def self.create_trails #creates hashes of trails and adds them to @trails array   
-    @@STATE_NAMES.each do |state|
-      state
-      doc = Nokogiri::HTML(open("http://www.everytrail.com/browse.php?country=United+States&state=#{state}"))
-      doc.css(".content").each do |attribute|
-        trail = {
-          "name" => "#{attribute.css("a")[0].text}",
-          "difficulty" => "#{attribute.css(".meta").text.split(" ")[0].sub(/:/, "")}",
-          "length" => "#{attribute.css(".meta").text.split(" ")[1]} #{attribute.css(".meta").text.split(" ")[2].sub(/,/, "")}",
-          "duration" => "#{attribute.css(".meta").text.split(" ")[3]} #{attribute.css(".meta").text.split(" ")[4]}",
-          "location" => "#{attribute.css(".small-text" ".light-text").text.split(" ")[0]} #{attribute.css(".small-text" ".light-text").text.split(" ")[1].sub(/,/, "")}"
-        }
-        @trails << trail
-        binding.pry
-        
-      end
+  def self.list_states
+    @@STATE_NAMES.each.with_index(1) do |state, index|
+      puts "#{index}. #{state}"
     end
+    @state_selection = gets.strip.to_i
+    puts "You've selected #{@state_selection}. #{@@STATE_NAMES[@state_selection]}. Here are the 20 best trails in #{@@STATE_NAMES[@state_selection]} according to EveryTrail.com. Enter 'reset' to go back to the menu."
+    doc
+    scrape_all
+  end
 
-    #@state_trails.each do |trail| #doc.css... each do 
-      #i = 0
-      #trail = {
-       # "name" => , 
-       # "difficulty" => "Difficult",
-       # "length" => "20 miles",
-       # "duration" => "Multiple Days",
-       # "location" => "Pfeiffer Big Sur State Park"
-       # }
-       # i += 1
-         #make sure it's just passing the states trails to @states, not all trails
-    
-    create_state_trails
+  def self.doc
+    doc = Nokogiri::HTML(open("http://www.everytrail.com/browse.php?country=United+States&state=#{@@STATE_NAMES[@state_selection]}"))
+  end
+
+  def self.scrape_all
+    trail_array = []
+    doc.css(".content").each do |attribute|
+      trail_name = attribute.css("a")[0].text
+      trail_difficulty = attribute.css(".meta").text.split(" ")[0].sub(/:/, "")
+      trail_length = [attribute.css(".meta").text.split(" ")[1], attribute.css(".meta").text.split(" ")[2]].join(" ").gsub(/,/, "")
+      trail_duration = [attribute.css(".meta").text.split(" ")[3], attribute.css(".meta").text.split(" ")[4]].join(" ").gsub(/,/, "")
+      trail_location = [attribute.css(".small-text" ".light-text").text.strip.split(", ")[0], attribute.css(".small-text" ".light-text").text.strip.split(", ")[1]].join(", ")
+      trail_array.push(trail_name, trail_difficulty, trail_length, trail_duration, trail_location)
+      binding.pry
+      end
+
+      [0...trail_array.size].to_a.each do |i|
+        trail_name = trails[i][0]
+        trail_length = trails[i][1]
+        trail_difficulty = trails[i][2]
+        trail_duration = trails[i][3]
+        trail_location = trails[i][4]
+      end
+
+      trail = Trail.new
+      trail.name = trail_name
+      trail.length = trail_length
+      trail.difficulty = trail_difficulty
+      trail.duration = trail_duration
+      trail.location = trail_location
+      trail.save
+ 
+  end
+
+  def self.create_trails #creates hashes of trails and adds them to @trails array 
+  scrape_all   
   end
 
   def self.create_state_trails #creates array of state names and their trail arrays
@@ -57,29 +72,6 @@ class TrailInfo::Trails
   def self.all
     @@all
   end
-
-
- #put into self.doc:
-      ##scrape all
-        #get all the data
-
-  def self.doc
-    #nokogiri srape
-
-      get all the data
-  end
-
-  def self.scrape_all
-    trails = [
-      trail_name,
-      trail_length,
-      etc.
-    ]
-
-    trails.each_with_index do |data_type, i|
-       raise.data_type.inspect #trail name, trail length
-       #
 end
 
-    #||= gets data the first time but not if it already has it
-    #Have CLI create new trail lists and report back the list
+

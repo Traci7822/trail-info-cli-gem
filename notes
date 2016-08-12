@@ -34,3 +34,27 @@ reset option
 Future ideas:
   -find by name
   -add all cities
+
+
+
+  def self.scrape_all
+    trails = [
+      trail_name,
+      trail_length,
+      etc.
+    ]
+
+    [0...trail_data.size]t_a.each do |i| #amt of items inside trails array
+      trail_name = trails[0][i]
+      trail_length = trails[1][i]
+    end
+      trail = Trail.new
+      trail.name = name
+      trail.length = trail_length
+      trail.save
+  end    
+end
+
+    #||= gets data the first time but not if it already has it
+    #Have CLI create new trail lists and report back the list
+
