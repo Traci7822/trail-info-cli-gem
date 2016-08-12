@@ -14,7 +14,7 @@ class TrailInfo::Trails
   @trails = []
 
   def initialize(state)
-      
+      @state = state
   end
 
   def self.create_trails #creates hashes of trails and adds them to @trails array   
@@ -31,6 +31,7 @@ class TrailInfo::Trails
         }
         @trails << trail
         binding.pry
+        
       end
     end
 
@@ -58,4 +59,27 @@ class TrailInfo::Trails
   end
 
 
+ #put into self.doc:
+      ##scrape all
+        #get all the data
+
+  def self.doc
+    #nokogiri srape
+
+      get all the data
+  end
+
+  def self.scrape_all
+    trails = [
+      trail_name,
+      trail_length,
+      etc.
+    ]
+
+    trails.each_with_index do |data_type, i|
+       raise.data_type.inspect #trail name, trail length
+       #
 end
+
+    #||= gets data the first time but not if it already has it
+    #Have CLI create new trail lists and report back the list
