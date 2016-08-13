@@ -20,30 +20,35 @@ attr_accessor :name
 
   def scrape_guides
     @doc.css(".activityTrail").css(".trailmeta").each do |scrape|
-      binding.pry
       new_trail = TrailInfo::Trail.new
   
       trail_name = scrape.css("a").text.split("\r\n                                                    ") unless scrape.css("a").text.split("\r\n                                                    ") == ""     
       new_trail.name = trail_name      
-      #need to figure out following attributes
-      trail_length = [attribute.css(".meta").text.split(" ")[1], attribute.css(".meta").text.split(" ")[2]].join(" ").gsub(/,/, "")
-      trail_surface = [attribute.css(".meta").text.split(" ")[3], attribute.css(".meta").text.split(" ")[4]].join(" ").gsub(/,/, "")
+      @doc.css(".activityTrail").css(".trailmeta").css("p").each do |scraping|
+        binding.pry
+
+        
+      end
+      need to figure out following attributes
+      #trail_length = [attribute.css(".meta").text.split(" ")[1], attribute.css(".meta").text.split(" ")[2]].join(" ").gsub(/,/, "")
+      #trail_surface = [attribute.css(".meta").text.split(" ")[3], attribute.css(".meta").text.split(" ")[4]].join(" ").gsub(/,/, "")
   
           
           
           
-          new_trail.length = trail_length
-          new_trail.surface = trail_surface
+          
+          #new_trail.length = trail_length
+          #new_trail.surface = trail_surface
      end
 
-        new_trail.state = self.name
-        new_trail.save
-        @trails << new_trail
+       # new_trail.state = self.name
+        #new_trail.save
+        #@trails << new_trail
       
     
 
     
-      trail_list
+      #trail_list
   end
 
   def trail_list
