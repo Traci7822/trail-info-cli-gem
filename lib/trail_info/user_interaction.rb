@@ -11,49 +11,42 @@ class TrailInfo::UserInteraction
   'TX'=>'TEXAS', 'UT'=>'UTAH', 'VT'=>'VERMONT', 'VA'=>'VIRGINIA', 'WA'=>'WASHINGTON', 'WV'=>'WEST VIRGINIA', 
   'WI'=>'WISCONSIN', 'WY'=>'WYOMING'}  
 
-  def self.initiate_state(state_number)
-    TrailInfo::State.new(@@STATE_NAMES.values[state_number - 1], @@STATE_NAMES.keys[state_number - 1])
-  end
-
   def self.list_states
     @@STATE_NAMES.each.with_index(1) do |state_name, index|
       puts "#{index}. #{state_name[1]}"
     end
-    selection = gets.strip
-    if selection == "exit"
-      exit
-    else
-      state_selection = selection.to_i
-      list_trails(state_selection)
-    end
+    state_input
   end
 
-  def self.input
+  def self.state_input
+    selection = gets.strip
+    list_trails(selection.to_i) unless selection == "exit"
+  end
+
+  def self.exit_input
     input = gets.strip
-    if input == "reset"
-      TrailInfo::CLI.new.call
-    elsif input == "exit"
-      exit
-    else
-      puts "I'm sorry, I don't understand. Please try again."
-      self.input
+    if input == "reset" ? TrailInfo::CLI.new.call : (input == "exit" ? exit : (puts "I'm sorry, I don't understand. Please try again." && exit_input))
     end
   end
 
   def self.list_trails(state_number)
    if state_number.between?(1, 51)
-     puts "You've selected #{state_number}. #{@@STATE_NAMES[state_number]}. Here are the available trails in #{@@STATE_NAMES[state_number]} according to TrailLink.com. This may take a moment to load.\n \n"
+     puts "You've selected #{state_number}. #{@@STATE_NAMES.values[state_number - 1]}. Here are the available trails in #{@@STATE_NAMES[state_number]} according to TrailLink.com. This may take a moment to load.\n \n"
      initiate_state(state_number)
      puts "\nEnter 'reset' to go back to the main menu or 'exit' to leave the program."
-     input
+     exit_input
    elsif 
      state_number == "exit"
      exit      
    else
      puts "Please enter a valid number between 1 - 51."
-     TrailInfo::States.state_selection(@@STATE_NAMES)
+     state_input
    end
  end
+
+  def self.initiate_state(state_number)
+    TrailInfo::State.new(@@STATE_NAMES.values[state_number - 1], @@STATE_NAMES.keys[state_number - 1])
+  end
 
 end
 
