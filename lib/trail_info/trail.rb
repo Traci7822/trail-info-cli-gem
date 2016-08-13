@@ -1,6 +1,6 @@
 class TrailInfo::Trail
 
-attr_accessor :name, :length, :duration, :location, :difficulty, :state
+attr_accessor :name, :length, :surface, :state
 
 @@all = []
 

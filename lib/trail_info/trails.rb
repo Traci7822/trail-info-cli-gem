@@ -23,8 +23,8 @@ class TrailInfo::Trails
     end
 
     state_number = gets.strip.to_i
-    puts "You've selected #{state_number}. #{@@STATE_NAMES.values[state_number]}. Here are the 20 best trails in #{@@STATE_NAMES.values[state_number]} according to EveryTrail.com. Enter 'reset' to go back to the menu."
-    state = TrailInfo::State.new(@@STATE_NAMES.values[state_number], @@STATE_NAMES.keys[state_number])
+    puts "You've selected #{state_number}. #{@@STATE_NAMES.values[state_number - 1]}. Here are the 20 best trails in #{@@STATE_NAMES.values[state_number - 1]} according to EveryTrail.com. Enter 'reset' to go back to the menu."
+    state = TrailInfo::State.new(@@STATE_NAMES.values[state_number - 1], @@STATE_NAMES.keys[state_number - 1])
       #displays State::Trail list
   end
 

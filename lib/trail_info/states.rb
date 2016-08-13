@@ -21,34 +21,34 @@ attr_accessor :name
   def scrape_guides
     @doc.css(".activityTrail").css(".trailmeta").each do |scrape|
       new_trail = TrailInfo::Trail.new
-  
-      trail_name = scrape.css("a").text.split("\r\n                                                    ") unless scrape.css("a").text.split("\r\n                                                    ") == ""     
-      new_trail.name = trail_name      
-      @doc.css(".activityTrail").css(".trailmeta").css("p").each do |scraping|
-        binding.pry
+      trail_name = scrape.css("a").text.split("\r\n                                                    ").join unless scrape.css("a").text.split("\r\n                                                    ") == ""     
 
+      scrape.css("p")[0].children.each do |section|
+        if section.include?("miles")
+          @trail_length = scrape.css("p")[0].children[6].text.split("\r\n").join.strip.gsub(/\s+/, " ").join
+        else
+          @trail_length = nil
+        end
         
+        scrape.css("p").children.each do |section|
+          if section.include?("Surface:")
+            @trail_surface = scrape.css("p")[1].children[10].text.split("\r\n").join.strip
+          else
+            @trail_surface = ""
+          end
+        end
       end
-      need to figure out following attributes
-      #trail_length = [attribute.css(".meta").text.split(" ")[1], attribute.css(".meta").text.split(" ")[2]].join(" ").gsub(/,/, "")
-      #trail_surface = [attribute.css(".meta").text.split(" ")[3], attribute.css(".meta").text.split(" ")[4]].join(" ").gsub(/,/, "")
-  
-          
-          
-          
-          
-          #new_trail.length = trail_length
-          #new_trail.surface = trail_surface
-     end
 
-       # new_trail.state = self.name
-        #new_trail.save
-        #@trails << new_trail
-      
-    
+      new_trail.name = trail_name            
+      new_trail.length = @trail_length
+      new_trail.surface = @trail_surface
+      new_trail.state = self.name
+      new_trail.save
 
-    
-      #trail_list
+      @trails << new_trail
+    end
+      trail_list
+
   end
 
   def trail_list
