@@ -24,7 +24,7 @@ class TrailInfo::UserInteraction
       exit
     else
       state_selection = selection.to_i
-      TrailInfo::State.state_selection(@@STATE_NAMES, state_selection)
+      list_trails(state_selection)
     end
   end
 
@@ -40,9 +40,9 @@ class TrailInfo::UserInteraction
     end
   end
 
-  def self.list_trails(state_number, state)
+  def self.list_trails(state_number)
    if state_number.between?(1, 51)
-     puts "You've selected #{state_number}. #{state}. Here are the available trails in #{state} according to TrailLink.com. This may take a moment to load.\n \n"
+     puts "You've selected #{state_number}. #{@@STATE_NAMES[state_number]}. Here are the available trails in #{@@STATE_NAMES[state_number]} according to TrailLink.com. This may take a moment to load.\n \n"
      initiate_state(state_number)
      puts "\nEnter 'reset' to go back to the main menu or 'exit' to leave the program."
      input
