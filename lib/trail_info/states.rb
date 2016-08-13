@@ -29,16 +29,18 @@ attr_accessor :name
         else
           @trail_length = ""
         end
-      end
-        
-      scrape.css("p").children.each do |section|
-        if section.include?("Surface:")
-          @trail_surface = scrape.css("p")[1].children[10].text.split("\r\n").join.strip
+
+        if section.text.include?("Surface:")
+           if section.text.split[7] == nil
+              @trail_surface = section.text.split[6]
+            else
+              @trail_surface = [section.text.split[6], section.text.split[7]].join(" ")
+            end
         else
           @trail_surface = ""
         end
       end
-      
+
       new_trail.name = trail_name            
       new_trail.length = @trail_length
       new_trail.surface = @trail_surface
