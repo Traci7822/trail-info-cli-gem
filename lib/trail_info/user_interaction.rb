@@ -19,7 +19,13 @@ class TrailInfo::UserInteraction
     @@STATE_NAMES.each.with_index(1) do |state_name, index|
       puts "#{index}. #{state_name[1]}"
     end
-    TrailInfo::State.state_selection(@@STATE_NAMES)
+    selection = gets.strip
+    if selection == "exit"
+      exit
+    else
+      state_selection = selection.to_i
+      TrailInfo::State.state_selection(@@STATE_NAMES, state_selection)
+    end
   end
 
   def self.input

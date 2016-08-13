@@ -2,11 +2,15 @@ class TrailInfo::Scraper
 
   def initialize(state_code)
     @state_code = state_code
-    @state_scrape = Nokogiri::HTML(open("http://www.traillink.com/stateactivity/#{state_code}-hiking-trails.aspx"))
-    scrape_state_guides
   end
 
-  def scrape_state_guides
+  def self.create_trails(state_code)
+    scrape_state_guides(state_code)
+  end
+
+  def self.scrape_state_guides(state_code) #fix sandwich code
+    trail_array = []
+    @state_scrape = Nokogiri::HTML(open("http://www.traillink.com/stateactivity/#{state_code}-hiking-trails.aspx"))
     @state_scrape.css(".activityTrail").css(".trailmeta").each do |state_scrape|
       new_trail = {}
       new_trail["name"] = state_scrape.css("a").text.split.join(" ") unless state_scrape.css("a").text.split.join(" ") == ""
@@ -27,8 +31,9 @@ class TrailInfo::Scraper
           new_trail["surface"] = ""
         end
       end
-
-      TrailInfo::Trail.new(@state_code, new_trail)
+      trail_array << new_trail
     end
+    trail_array
   end
+
 end

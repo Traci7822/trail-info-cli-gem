@@ -7,7 +7,7 @@ class TrailInfo::CLI
   end
 
   def menu
-    puts "Enter which state number you'd like to find a trail in and press enter." 
+    puts "Enter which state number you'd like to find a trail in and press enter or type 'exit' to exit the program." 
   end
 
   def pick_state
