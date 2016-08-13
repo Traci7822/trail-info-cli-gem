@@ -2,20 +2,27 @@ class TrailInfo::State
 
   attr_accessor :name
   @@all = []
-
-  def initialize(name, state_code,)
+  @trails_array = []
+  def initialize(name, state_code)
     @name = name
-    @state_code = state_code
-    
-    #where is trails_array coming from?
-    @trails = trails_array.collect do |trail_attributes|
+    TrailInfo::Scraper.new(state_code)
+    @trails_array = TrailInfo::Trail.all
+    @trails = @trails_array.collect do |trail_attributes|
       TrailInfo::Trail.new(self, trail_attributes)
     end
+    trail_list
 
-    doc
+    
     @@all << self
 
     trail_list
+  end
+ 
+
+  def self.state_selection(states_array)
+    @state_number = gets.strip.to_i
+    state = states_array[@state_number]
+    TrailInfo::UserInteraction.list_trails(@state_number, state)    
   end
 
   def self.all

@@ -1,15 +1,16 @@
+require 'pry'
 class TrailInfo::Trail
 
 attr_accessor :name, :length, :surface, :state
 
 @@all = []
 
-def initialize(state, attributes)
+def initialize(state, trail_attributes)
   trail_attributes.each do |attribute_name, attribute_value|
     self.send("#{attribute_name}=", attribute_value)
   end
-  @name = name
-end
+  save
+  end
 
 def save
   @@all << self
@@ -33,5 +34,7 @@ def self.trails_by_state(state)
     end
   end
 end
+
+
 
 end
