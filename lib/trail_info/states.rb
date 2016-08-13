@@ -4,56 +4,51 @@ attr_accessor :name
 
 @@all = []
 
-  def initialize(name)
+  def initialize(name, code)
     @name = name
+    @code = code
     @trails = []
     doc
-
   end
 
+
   def doc
-    @doc = Nokogiri::HTML(open("http://www.everytrail.com/browse.php?country=United+States&state=#{@name}"))
-    binding.pry
+    @doc = Nokogiri::HTML(open("http://www.traillink.com/stateactivity/#{@code}-hiking-trails.aspx"))
     scrape_guides
 
   end
 
   def scrape_guides
-    @doc.css(".guide-preview").each do |attribute|
-      if attribute.css("a") != []
-        new_trail = TrailInfo::Trail.new
-
-        trail_name = attribute.css("a")[0].text
-        trail_location = [attribute.css(".small-text" ".light-text").text.strip.split(", ")[0], attribute.css(".small-text" ".light-text").text.strip.split(", ")[1]].join(", ") 
-        new_trail.name = trail_name
-        new_trail.location = trail_location
-
-        if attribute.css(".meta").text != "\n\t\t\t\t\t\t\t\t\t\t"
-          trail_difficulty = attribute.css(".meta").text.split(" ")[0].gsub(/:/, "")
-          trail_length = [attribute.css(".meta").text.split(" ")[1], attribute.css(".meta").text.split(" ")[2]].join(" ").gsub(/,/, "")
-          trail_duration = [attribute.css(".meta").text.split(" ")[3], attribute.css(".meta").text.split(" ")[4]].join(" ").gsub(/,/, "")
+    @doc.css(".activityTrail").css(".trailmeta").each do |scrape|
+      binding.pry
+      new_trail = TrailInfo::Trail.new
+  
+      trail_name = scrape.css("a").text.split("\r\n                                                    ") unless scrape.css("a").text.split("\r\n                                                    ") == ""     
+      new_trail.name = trail_name      
+      #need to figure out following attributes
+      trail_length = [attribute.css(".meta").text.split(" ")[1], attribute.css(".meta").text.split(" ")[2]].join(" ").gsub(/,/, "")
+      trail_surface = [attribute.css(".meta").text.split(" ")[3], attribute.css(".meta").text.split(" ")[4]].join(" ").gsub(/,/, "")
   
           
           
-          new_trail.difficulty = trail_difficulty
+          
           new_trail.length = trail_length
-          new_trail.duration = trail_duration
-        end
+          new_trail.surface = trail_surface
+     end
 
         new_trail.state = self.name
         new_trail.save
         @trails << new_trail
-      end
-    end
+      
+    
 
     
-     binding.pry
       trail_list
   end
 
   def trail_list
     @trails.each.with_index(1) do |trail, i| 
-      puts "#{i}. #{trail.name} | Location: #{trail.location} | Difficulty: #{trail.difficulty} | Length: #{trail.length} | Duration: #{trail.duration}"
+      puts "#{i}. #{trail.name} | Length: #{trail.length} | Surface: #{trail.surface}|"
     end
   end
 
