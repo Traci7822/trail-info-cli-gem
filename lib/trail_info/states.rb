@@ -1,6 +1,6 @@
 class TrailInfo::State
 
-  attr_accessor :name
+  attr_accessor :name, :trails
   @@all = []
 
   def initialize(name, state_code)

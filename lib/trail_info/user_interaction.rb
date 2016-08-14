@@ -34,9 +34,20 @@ class TrailInfo::UserInteraction
   end
 
   def self.exit_input
-    puts "\nEnter 'reset' to go back to the main menu or 'exit' to leave the program."
+    puts "Select a trail number to view more details or enter 'reset' to go back to the main menu or 'exit' to leave the program."
+    trail_array = TrailInfo::State.all
+    max_trail_number = trail_array[0].trails.length
     input = gets.strip
+    trail_number = input.to_i
+    if input.to_i.between?(1, max_trail_number)
+      all_trails = TrailInfo::Trail.all
+      trail_details = all_trails[trail_number]
+      puts "#{trail_details.name} | Length: #{trail_details.length} | Surface: #{trail_details.surface}|\n\n"
+      puts "#{trail_details.synopsis}"
+      puts "For more information visit: #{trail_details_url}"
+    else
     if input == "reset" ? TrailInfo::CLI.new.call : (input == "exit" ? exit : (puts "I'm sorry, I don't understand. Please try again." && exit_input))
+    end
     end
   end
 

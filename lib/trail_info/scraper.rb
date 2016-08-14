@@ -24,14 +24,20 @@ class TrailInfo::Scraper
 
   def self.scrape_trail_attributes(state_scrape)
     @new_trail = {}
-    @new_trail["name"] = state_scrape.css("a").text.split.join(" ") unless state_scrape.css("a").text.split.join(" ") == ""
+    @new_trail["synopsis"] = scrape_synopsis(state_scrape)
+    @new_trail["name"] = scrape_trail_name(state_scrape)
+    @new_trail["url"] = scrape_url(state_scrape)
     state_scrape.css("p").each do |trail_section|
-      trail_length_and_surface(trail_section)
+      scrape_trail_length_and_surface(trail_section)
       @new_trail
     end
   end
 
-  def self.trail_length_and_surface(trail_section)
+  def self.scrape_trail_name(state_scrape)
+    state_scrape.css("a").text.split.join(" ") unless state_scrape.css("a").text.split.join(" ") == ""
+  end
+
+  def self.scrape_trail_length_and_surface(trail_section)
     if trail_section.text.include?("miles") ? @new_trail["length"] = [trail_section.text.split[3], trail_section.text.split[4]].join(" ") : @new_trail["length"] = ""
     end
 
@@ -42,6 +48,15 @@ class TrailInfo::Scraper
       @new_trail["surface"] = ""
     end
     @new_trail
+  end
+
+  def self.scrape_synopsis(state_scrape)
+    @state_synopsis = state_scrape.css(".synopsis").text.strip
+  end
+
+  def self.scrape_url(state_scrape)
+    path = state_scrape.css("a").attribute("href").value
+    state_url = "http://www.traillink.com#{path}"
   end
 
 end
