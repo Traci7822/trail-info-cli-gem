@@ -20,7 +20,18 @@ class TrailInfo::UserInteraction
 
   def self.state_input
     selection = gets.strip
-    list_trails(selection.to_i) unless selection == "exit"
+    if selection == 'go back'
+      list_trails(selection.to_i)
+    elsif selection == 'reset'
+      TrailInfo::CLI.new.call
+    elsif selection == 'exit'
+      exit
+    else 
+      puts "I'm sorry, I don't understand. Please try again."
+      state_input
+    end
+  end
+
   end
 
   def self.list_trails(state_number)
@@ -34,7 +45,6 @@ class TrailInfo::UserInteraction
   end
 
   def self.exit_input
-    puts "Select a trail number to view more details or enter 'reset' to go back to the main menu or 'exit' to leave the program."
     trail_array = TrailInfo::State.all
     max_trail_number = trail_array[0].trails.length
     input = gets.strip
@@ -44,7 +54,9 @@ class TrailInfo::UserInteraction
       trail_details = all_trails[trail_number]
       puts "#{trail_details.name} | Length: #{trail_details.length} | Surface: #{trail_details.surface}|\n\n"
       puts "#{trail_details.synopsis}"
-      puts "For more information visit: #{trail_details_url}"
+      puts "For more information visit: #{trail_details.url}"
+      puts "enter 'go back' to return to the list of trails, 'reset' to go back to the main menu, or 'exit' to exit the program. "
+      state_input
     else
     if input == "reset" ? TrailInfo::CLI.new.call : (input == "exit" ? exit : (puts "I'm sorry, I don't understand. Please try again." && exit_input))
     end
@@ -54,6 +66,7 @@ class TrailInfo::UserInteraction
   def self.initiate_state(state_number)
     TrailInfo::State.new(@@STATE_NAMES.values[state_number - 1], @@STATE_NAMES.keys[state_number - 1])
   end
+
 
 end
 
