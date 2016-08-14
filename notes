@@ -1,47 +1,7 @@
 
-a CLI for TrailLink
 http://www.traillink.com/stateactivity/al-hiking-trails.aspx
-
-user types 'find a trail'
-
--runs executable (bin/trail_info)
-
-Lists country locations (".box.content.link-list")
-
-"Which Country would you like?"
-
-user selects location
-
-Lists State locations (".box.content.link-list")
-
-"Which State would you like?"
-
-user selects location
-
-Lists City locations (".box.content.link-list")
-
-user selects location
-
-List of trails displayed (".container-body")
-
--Trail info displayed: Difficulty, Length, Duration, Notes
-
-reset option
-
-*Have a go back option on all scripts
-
 
 Future ideas:
   -find by name
   -add all cities
-
-
-
-
-    #||= gets data the first time but not if it already has it
-    #Have CLI create new trail lists and report back the list
-
-Things to fix:
--Output text
--commas at the end of some surface attributes
--exit function
+  -adds detail option for each trail

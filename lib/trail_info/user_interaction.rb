@@ -23,26 +23,22 @@ class TrailInfo::UserInteraction
     list_trails(selection.to_i) unless selection == "exit"
   end
 
-  def self.exit_input
-    input = gets.strip
-    if input == "reset" ? TrailInfo::CLI.new.call : (input == "exit" ? exit : (puts "I'm sorry, I don't understand. Please try again." && exit_input))
-    end
-  end
-
   def self.list_trails(state_number)
    if state_number.between?(1, 51)
      puts "You've selected #{state_number}. #{@@STATE_NAMES.values[state_number - 1]}. Here are the available trails in #{@@STATE_NAMES[state_number]} according to TrailLink.com. This may take a moment to load.\n \n"
      initiate_state(state_number)
-     puts "\nEnter 'reset' to go back to the main menu or 'exit' to leave the program."
      exit_input
    elsif 
-     state_number == "exit"
-     exit      
-   else
-     puts "Please enter a valid number between 1 - 51."
-     state_input
+     state_number == "exit" ? exit : (puts "Please enter a valid number between 1 - 51." && state_input)
    end
- end
+  end
+
+  def self.exit_input
+    puts "\nEnter 'reset' to go back to the main menu or 'exit' to leave the program."
+    input = gets.strip
+    if input == "reset" ? TrailInfo::CLI.new.call : (input == "exit" ? exit : (puts "I'm sorry, I don't understand. Please try again." && exit_input))
+    end
+  end
 
   def self.initiate_state(state_number)
     TrailInfo::State.new(@@STATE_NAMES.values[state_number - 1], @@STATE_NAMES.keys[state_number - 1])

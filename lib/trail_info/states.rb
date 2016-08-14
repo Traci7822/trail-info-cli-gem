@@ -7,20 +7,13 @@ class TrailInfo::State
     @name = name
     @trails = []
     TrailInfo::Scraper.new(state_code)
-    trail_hash = TrailInfo::Scraper.create_trails(state_code)
-    trail_hash.each do |trail|
+    TrailInfo::Scraper.create_trails(state_code).each do |trail|
       @trails << TrailInfo::Trail.new(self, trail)
     end
 
     trail_list    
     @@all << self
   end
- 
-
-  #def self.state_selection(states_array, state_selection)
-  #  state = states_array.values[state_selection - 1]
-  #  TrailInfo::UserInteraction.list_trails(state_selection, state)    
-  #end
 
   def self.all
     @@all

@@ -20,20 +20,20 @@ def self.all
   @@all
 end
 
-def self.print_all
-  all.each_with_index do |trail, index|
-    puts "#{i}. #{trail.name} | Length: #{trail.length} | Surface: #{trail.surface}|"
-  end
-end
+#def self.print_all
+#  all.each_with_index do |trail, index|
+#    puts "#{i}. #{trail.name} | Length: #{trail.length} | Surface: #{trail.surface}|"
+#  end
+#end
 
-def self.trails_by_state(state)
-  trail_list = []
-  self.all.each do |trail|
-    if trail.state.name == selected_state.name
-      trail_list << trail
-    end
-  end
-end
+#def self.trails_by_state(state)
+ # trail_list = []
+ # self.all.each do |trail|
+ #   if trail.state.name == selected_state.name
+ #     trail_list << trail
+#    end
+ # end
+#end
 
 
 
