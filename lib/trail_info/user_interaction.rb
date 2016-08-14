@@ -25,14 +25,24 @@ class TrailInfo::UserInteraction
 
   def self.list_trails(state_number)
    if state_number.between?(1, 51)
-     puts "You've selected #{state_number}. #{@@STATE_NAMES.values[state_number - 1]}. Here are the available trails in #{@@STATE_NAMES[state_number]} according to TrailLink.com. This may take a moment to load.\n \n"
-     initiate_state(state_number)
-     puts "\nPlease select a trail number to see more details."
-     exit_input
+     list_trails_report(state_number)
    elsif 
      state_number == "exit" ? exit : (puts "Please enter a valid number between 1 - 51." && state_input)
    end
   end
+
+  def self.list_trails_report(state_number)
+    puts "You've selected #{state_number}. #{@@STATE_NAMES.values[state_number - 1]}. Here are the available trails in #{@@STATE_NAMES[state_number]} according to TrailLink.com. This may take a moment to load.\n \n"
+    initiate_state(state_number)
+    puts "\nPlease select a trail number to see more details."
+    exit_input
+  end
+
+  #def self.trail_listing(report)
+   # report.trail_list.each.with_index(1) do |trail, index|
+   #   puts "#{index}. #{trail.name} | Length: #{trail.length} | Surface: #{trail.surface}|"
+   # end
+  #end
 
   def self.exit_input
     trail_array = TrailInfo::State.all
@@ -40,15 +50,13 @@ class TrailInfo::UserInteraction
     input = gets.strip
     trail_number = input.to_i
     if input.to_i.between?(1, max_trail_number)
-      all_trails = TrailInfo::Trail.all
-      trail_details = all_trails[trail_number]
-      puts "\n#{trail_details.name} | Length: #{trail_details.length} | Surface: #{trail_details.surface}|\n\n"
+      #need to re-insert trail description
       puts "#{trail_details.synopsis}"
       puts "\nFor more information visit: #{trail_details.url}"
       puts "\nEnter 'back' to return to the list of trails, 'reset' to go back to the main menu, or 'exit' to exit the program. "
       exit_input
     else
-      if input == 'back' ? list_trails(@selection.to_i) : if input == "reset" ? TrailInfo::CLI.new.call : (input == "exit" ? exit : (puts "I'm sorry, I don't understand. Please try again." && exit_input))
+      if input == 'back' ? fillmein : if input == "reset" ? TrailInfo::CLI.new.call : (input == "exit" ? exit : (puts "I'm sorry, I don't understand. Please try again." && exit_input))
     end
   end
     end

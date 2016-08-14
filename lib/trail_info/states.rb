@@ -10,8 +10,7 @@ class TrailInfo::State
     TrailInfo::Scraper.create_trails(state_code).each do |trail|
       @trails << TrailInfo::Trail.new(self, trail)
     end
-
-    trail_list    
+    trail_list
     @@all << self
   end
 
@@ -20,9 +19,18 @@ class TrailInfo::State
   end
 
   def trail_list
+    @trail_list = []
     @trails.each.with_index(1) do |trail, i| 
-      puts "#{i}. #{trail.name} | Length: #{trail.length} | Surface: #{trail.surface}|"
+      trail_description = "#{i}. #{trail.name} | Length: #{trail.length} | Surface: #{trail.surface}|"
+      puts trail_description
+      @trail_list << trail_description
     end
+    @trail_list
   end
 
+  def self.trail_list_report
+    @trail_list
+  end
+
+  
 end
