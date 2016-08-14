@@ -19,25 +19,15 @@ class TrailInfo::UserInteraction
   end
 
   def self.state_input
-    selection = gets.strip
-    if selection == 'go back'
-      list_trails(selection.to_i)
-    elsif selection == 'reset'
-      TrailInfo::CLI.new.call
-    elsif selection == 'exit'
-      exit
-    else 
-      puts "I'm sorry, I don't understand. Please try again."
-      state_input
-    end
-  end
-
+    @selection = gets.strip
+    list_trails(@selection.to_i) unless @selection == "exit"
   end
 
   def self.list_trails(state_number)
    if state_number.between?(1, 51)
      puts "You've selected #{state_number}. #{@@STATE_NAMES.values[state_number - 1]}. Here are the available trails in #{@@STATE_NAMES[state_number]} according to TrailLink.com. This may take a moment to load.\n \n"
      initiate_state(state_number)
+     puts "\nPlease select a trail number to see more details."
      exit_input
    elsif 
      state_number == "exit" ? exit : (puts "Please enter a valid number between 1 - 51." && state_input)
@@ -52,21 +42,21 @@ class TrailInfo::UserInteraction
     if input.to_i.between?(1, max_trail_number)
       all_trails = TrailInfo::Trail.all
       trail_details = all_trails[trail_number]
-      puts "#{trail_details.name} | Length: #{trail_details.length} | Surface: #{trail_details.surface}|\n\n"
+      puts "\n#{trail_details.name} | Length: #{trail_details.length} | Surface: #{trail_details.surface}|\n\n"
       puts "#{trail_details.synopsis}"
-      puts "For more information visit: #{trail_details.url}"
-      puts "enter 'go back' to return to the list of trails, 'reset' to go back to the main menu, or 'exit' to exit the program. "
-      state_input
+      puts "\nFor more information visit: #{trail_details.url}"
+      puts "\nEnter 'back' to return to the list of trails, 'reset' to go back to the main menu, or 'exit' to exit the program. "
+      exit_input
     else
-    if input == "reset" ? TrailInfo::CLI.new.call : (input == "exit" ? exit : (puts "I'm sorry, I don't understand. Please try again." && exit_input))
+      if input == 'back' ? list_trails(@selection.to_i) : if input == "reset" ? TrailInfo::CLI.new.call : (input == "exit" ? exit : (puts "I'm sorry, I don't understand. Please try again." && exit_input))
     end
+  end
     end
   end
 
   def self.initiate_state(state_number)
     TrailInfo::State.new(@@STATE_NAMES.values[state_number - 1], @@STATE_NAMES.keys[state_number - 1])
   end
-
 
 end
 
