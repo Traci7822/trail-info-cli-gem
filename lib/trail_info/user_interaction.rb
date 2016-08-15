@@ -34,32 +34,40 @@ class TrailInfo::UserInteraction
   def self.list_trails_report(state_number)
     puts "You've selected #{state_number}. #{@@STATE_NAMES.values[state_number - 1]}. Here are the available trails in #{@@STATE_NAMES[state_number]} according to TrailLink.com. This may take a moment to load.\n \n"
     initiate_state(state_number)
+    re_list_trails_report
+  end
+
+  def self.re_list_trails_report
+    TrailInfo::State.trail_list
     puts "\nPlease select a trail number to see more details."
     exit_input
   end
 
-  #def self.trail_listing(report)
-   # report.trail_list.each.with_index(1) do |trail, index|
-   #   puts "#{index}. #{trail.name} | Length: #{trail.length} | Surface: #{trail.surface}|"
-   # end
-  #end
+  def self.trail_list
+    
+  end
 
   def self.exit_input
-    trail_array = TrailInfo::State.all
-    max_trail_number = trail_array[0].trails.length
+    @trail_array = TrailInfo::State.all
+    max_trail_number = @trail_array[0].trails.length
     input = gets.strip
-    trail_number = input.to_i
+    @trail_number = input.to_i
     if input.to_i.between?(1, max_trail_number)
-      #need to re-insert trail description
-      puts "#{trail_details.synopsis}"
-      puts "\nFor more information visit: #{trail_details.url}"
-      puts "\nEnter 'back' to return to the list of trails, 'reset' to go back to the main menu, or 'exit' to exit the program. "
-      exit_input
+      trail_description(@trail_array, @trail_number)
     else
-      if input == 'back' ? fillmein : if input == "reset" ? TrailInfo::CLI.new.call : (input == "exit" ? exit : (puts "I'm sorry, I don't understand. Please try again." && exit_input))
+      if input == 'back' ? re_list_trails_report : if input == "reset" ? TrailInfo::CLI.new.call : (input == "exit" ? exit : (puts "I'm sorry, I don't understand. Please try again." && exit_input))
     end
   end
     end
+  end
+
+  def self.trail_description(trail_array, trail_number)
+    trail = trail_array[0].trails[trail_number]
+    puts "#{trail.name} | Length: #{trail.length} | Surface: #{trail.surface}|"
+    puts "#{trail.synopsis}"
+    puts "\nFor more information visit: #{trail.url}"
+    puts "\nEnter 'back' to return to the list of trails, 'reset' to go back to the main menu, or 'exit' to exit the program. "
+    exit_input
   end
 
   def self.initiate_state(state_number)
