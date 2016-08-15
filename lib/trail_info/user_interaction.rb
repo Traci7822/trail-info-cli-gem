@@ -25,26 +25,22 @@ class TrailInfo::UserInteraction
 
   def self.list_trails(state_number)
    if state_number.between?(1, 51)
-     list_trails_report(state_number)
+     initiate_trails_report(state_number)
    elsif 
      state_number == "exit" ? exit : (puts "Please enter a valid number between 1 - 51." && state_input)
    end
   end
 
-  def self.list_trails_report(state_number)
+  def self.initiate_trails_report(state_number)
     puts "You've selected #{state_number}. #{@@STATE_NAMES.values[state_number - 1]}. Here are the available trails in #{@@STATE_NAMES[state_number]} according to TrailLink.com. This may take a moment to load.\n \n"
     initiate_state(state_number)
-    re_list_trails_report
+    list_trails_report
   end
 
-  def self.re_list_trails_report
+  def self.list_trails_report
     TrailInfo::State.trail_list
     puts "\nPlease select a trail number to see more details."
     exit_input
-  end
-
-  def self.trail_list
-    
   end
 
   def self.exit_input
@@ -55,7 +51,7 @@ class TrailInfo::UserInteraction
     if input.to_i.between?(1, max_trail_number)
       trail_description(@trail_array, @trail_number)
     else
-      if input == 'back' ? re_list_trails_report : if input == "reset" ? TrailInfo::CLI.new.call : (input == "exit" ? exit : (puts "I'm sorry, I don't understand. Please try again." && exit_input))
+      if input == 'back' ? list_trails_report : if input == "reset" ? TrailInfo::CLI.new.call : (input == "exit" ? exit : (puts "I'm sorry, I don't understand. Please try again." && exit_input))
     end
   end
     end
