@@ -1,3 +1,5 @@
+require 'pry'
+
 class TrailInfo::CLI
 
   @@STATE_NAMES = {'AL'=>'ALABAMA',
@@ -14,11 +16,11 @@ class TrailInfo::CLI
   def call
     puts "Welcome to Trail Finder!"
     menu  
-    list_states
   end
 
   def menu
-    puts "Enter which state number you'd like to find a trail in and press enter or type 'exit' to exit the program." 
+    puts "Enter which state number you'd like to find a trail in and press enter or type 'exit' to exit the program.\n\n" 
+    list_states
   end
 
   def list_states
@@ -53,7 +55,7 @@ class TrailInfo::CLI
 
   def list_trails_report
     TrailInfo::State.trail_list
-    puts "\nPlease select a trail number to see more details."
+    puts "\nPlease select a trail number to see more details, enter 'reset' to go back to the main menu, or 'exit' to exit the program."
     exit_input
   end
 
@@ -65,7 +67,7 @@ class TrailInfo::CLI
     if input.to_i.between?(1, max_trail_number)
       trail_description(@trail_array, @trail_number)
     else
-      if input == 'back' ? list_trails_report : if input == "reset" ? TrailInfo::CLI.new.call : (input == "exit" ? exit : (puts "I'm sorry, I don't understand. Please try again." && exit_input))
+      if input == 'back' ? list_trails_report : if input == "reset" ? TrailInfo::State.clear_all && call : (input == "exit" ? exit : (puts "I'm sorry, I don't understand. Please try again." && exit_input))
       end
       end
     end
@@ -76,7 +78,7 @@ class TrailInfo::CLI
     puts "#{trail.name} | Length: #{trail.length} | Surface: #{trail.surface}|"
     puts "#{trail.synopsis}"
     puts "\nFor more information visit: #{trail.url}"
-    puts "\nEnter 'back' to return to the list of trails, 'reset' to go back to the main menu, or 'exit' to exit the program. "
+    puts "\nEnter 'back' to return to the list of trails, 'reset' to go back to the main menu, or 'exit' to exit the program."
     exit_input
   end
 end

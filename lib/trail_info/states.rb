@@ -17,6 +17,10 @@ class TrailInfo::State
     @@all
   end
 
+  def self.clear_all
+    @@all.clear
+  end
+
   def self.trail_list
     @trail_list = []
     @@all[0].trails.each.with_index(1) do |trail, i| 
@@ -27,5 +31,6 @@ class TrailInfo::State
     @trail_list
   end
 
-
 end
+
+
