@@ -57,7 +57,7 @@ class TrailInfo::CLI
     exit_input
   end
 
-  def exit_input
+  def exit_input #isn't able to pull information for details after going back to trail list
     @trail_array = TrailInfo::State.all
     max_trail_number = @trail_array[0].trails.length
     input = gets.strip.downcase
