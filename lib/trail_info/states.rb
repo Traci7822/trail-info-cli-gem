@@ -27,9 +27,5 @@ class TrailInfo::State
     @trail_list
   end
 
-  def self.trail_list_report
-    @trail_list
-  end
-
 
 end
