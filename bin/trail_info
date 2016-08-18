@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 
-require "./lib/trail_info"
+
+require_relative "../lib/trail_info"
 
 
 TrailInfo::CLI.new.call
+
 

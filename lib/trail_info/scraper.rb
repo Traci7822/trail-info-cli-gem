@@ -1,9 +1,5 @@
 class TrailInfo::Scraper
 
-  def initialize(state_code) #Creates new scraper instance with state code
-    @state_code = state_code
-  end
-
   def self.create_trails(state_code) #Initiates state scrape
     scrape_state_guides(state_code)
   end
