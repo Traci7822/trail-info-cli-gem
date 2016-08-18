@@ -1,8 +1,6 @@
 # TrailInfo
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/trail_info`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This TrailInfo CLI GEM is programmed to allow the user to select a state and then display available trails in that state from TrailLink.com. Users are then able to select a trail from that list to see further details about the trail. 
 
 ## Installation
 
@@ -22,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+To use TrailInfo, run ./bin/trail_info in your terminal. A list of states will be displayed, select one by number and hit enter to bring up trails in that state. When the trail list populates, enter a trail number and hit enter to see further details on the selected trail. Use menu commands to navigate back to the start. 
 
 ## Development
 
@@ -32,7 +30,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/trail_info.
+Bug reports and pull requests are welcome on GitHub at https://github.com/Traci7822/trail_info.
 
 
 ## License

@@ -31,16 +31,20 @@ class TrailInfo::CLI
   end
 
   def state_input #allows user to select which state to view trails in
-    @selection = gets.strip.downcase
-    list_trails(@selection.to_i) unless @selection == "exit"
+    selection = gets.strip.downcase
+    list_trails(selection)
   end
 
   def list_trails(state_number) #checks input to determine whether to list trails or exit
-   if state_number.between?(1, 51)
-     initiate_trails_report(state_number)
-   elsif 
-     state_number == "exit" ? exit : (puts "Please enter a valid number between 1 - 51." && state_input)
-   end
+    if state_number.to_i.between?(1, 51)
+      initiate_trails_report(state_number.to_i)
+    elsif 
+      state_number == "exit"
+      exit 
+    else
+      puts "Please enter a valid number between 1 - 51."
+      state_input
+    end
   end
 
   def initiate_trails_report(state_number) #Writes state selection, initiates new state instance, lists states trails
